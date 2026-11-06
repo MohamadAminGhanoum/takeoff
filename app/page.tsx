@@ -2,7 +2,7 @@
 import styles from "./page.module.css";
 import { Button } from "@/components/ui/button";
 
-const SLACK_URL = "https://hackclub.com/slack";
+const SLACK_URL = "https://app.slack.com/client/E09V59WQY1E/C0BATDA4MEF";
 const RSVP_URL = "https://rsvp.hackclub.community/take-off";
 
 const projects = [
@@ -144,16 +144,14 @@ export default function Home() {
 
         <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Button
-            asChild
             size="lg"
             className="bg-sky-500 hover:bg-sky-400 text-white font-semibold px-8 transition-all duration-300 hover:scale-105"
           >
             <a href={RSVP_URL} target="_blank" rel="noopener noreferrer">
-              RSVP for Takeoff ✈️
+              RSVP for Takeoff
             </a>
           </Button>
           <Button
-            asChild
             variant="outline"
             size="lg"
             className="bg-transparent border-2 border-slate-500 text-slate-200 hover:bg-slate-700 hover:text-white transition-all duration-300"
