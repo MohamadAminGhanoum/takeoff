@@ -1,6 +1,23 @@
 "use client"
-import styles from "./page.module.css";
 import { Button } from "@/components/ui/button";
+
+const styles = {
+  mainContainer: "min-h-screen bg-slate-950",
+  header: "w-full max-w-6xl px-6 py-6",
+  navbar: "flex items-center justify-between",
+  navbarButtons: "text-slate-300 transition-colors hover:text-sky-400",
+  showcaseSection: "mt-24 w-full max-w-6xl px-6",
+  showcaseHeading: "mb-8 text-center text-2xl font-bold text-sky-300",
+  cardStream: "grid gap-6 sm:grid-cols-2 lg:grid-cols-3",
+  blueprintCard: "min-h-72 rounded-xl border border-sky-800 bg-cover bg-center p-6 text-white shadow-lg shadow-sky-950/50",
+  cardTitle: "text-xl font-bold",
+  cardCreator: "mt-1 text-sm text-sky-300",
+  cardDescription: "mt-4 text-sm leading-relaxed text-slate-200",
+  FAQ: "mt-24 w-full max-w-3xl px-6",
+  FAQstyle: "border-b border-slate-700 py-4",
+  FAQlist: "cursor-pointer font-semibold text-slate-200",
+  FAQcontent: "mt-3 text-slate-400",
+};
 
 const SLACK_URL = "https://app.slack.com/client/E09V59WQY1E/C0BATDA4MEF";
 const RSVP_URL = "https://rsvp.hackclub.community/take-off";
@@ -296,7 +313,7 @@ export default function Home() {
           .
         </p>
         <p className="mt-4 text-xs text-slate-600">
-          🏳️ Built with love, caffeine, and probably too many servo datasheets.
+          🏳️ Built with love, caffeine, and probably too many servo datasheets. MORE DATASHEETS!!! (Java Junkie an org...)
         </p>
       </footer>
     </main>
