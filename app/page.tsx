@@ -127,19 +127,16 @@ export default function Home() {
 
       {/* HERO */}
       <section id="about" className="max-w-4xl text-center px-6 mt-24">
-        <p className="text-sky-400 text-sm md:text-base font-medium tracking-[0.3em] uppercase">
-          Hack Club presents
-        </p>
         <h1 className="mt-4 text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-sky-300 to-blue-400">
           Takeoff
         </h1>
         <p className="mt-2 text-2xl md:text-3xl text-slate-300 font-medium">
-          Coming soon. Cleared for boarding.
+          Coming soon...
         </p>
         <p className="mt-8 text-lg md:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
-          A YSWS for aviation nerds. Build a drone, a flight tracker, a desktop jet engine, a
-          radar, an aviation game — anything that flies, senses flight, or pretends to. Ship it, and
-          we ship you prizes and hardware funding.
+          A YSWS where you ship aviation-related hardware and/or software projects (drones, hobby radars, flight trackers, aviation games, etc.), and we ship aviation-related prizes and funding for your hardware projects!
+
+
         </p>
 
         <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -167,7 +164,7 @@ export default function Home() {
       <section className="max-w-4xl mx-auto mt-24 px-6 text-center">
         <h2 className="text-2xl md:text-3xl font-bold text-sky-300">What counts?</h2>
         <p className="mt-3 text-slate-400">
-          If it's aviation-adjacent, it counts. Some ideas:
+          (You can always ask in #takeoff-help if you aren't sure if your project counts.):
         </p>
         <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
           {buildIdeas.map(([emoji, label]) => (
@@ -190,9 +187,9 @@ export default function Home() {
             <div className="text-sky-400 font-bold text-sm tracking-widest uppercase">
               Step 1
             </div>
-            <h3 className="mt-2 text-xl font-semibold">Build</h3>
+            <h3 className="mt-2 text-xl font-semibold">Design</h3>
             <p className="mt-2 text-slate-400 text-sm">
-              Pick a project. Grab a friend. Log your hours with{" "}
+              Design your project and journal your progress, while tracking your time using{" "}
               <a
                 href="https://hackatime.hackclub.com"
                 target="_blank"
@@ -201,7 +198,7 @@ export default function Home() {
               >
                 Hackatime
               </a>{" "}
-              as you go.
+              as evidence.
             </p>
           </div>
           <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-6">
@@ -210,8 +207,7 @@ export default function Home() {
             </div>
             <h3 className="mt-2 text-xl font-semibold">Ship</h3>
             <p className="mt-2 text-slate-400 text-sm">
-              Publish your project — repo, build log, photos, demo video. Same as any Hack Club
-              YSWS.
+              Ship your project to takeoff, and get funding to build your project IRL!
             </p>
           </div>
           <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-6">
@@ -220,8 +216,7 @@ export default function Home() {
             </div>
             <h3 className="mt-2 text-xl font-semibold">Get prizes</h3>
             <p className="mt-2 text-slate-400 text-sm">
-              Aviation-themed swag, gift cards, hardware grants for your next build — funded
-              through Hack Club Bank.
+              You can get aviation-themed prices in the shop to buy whatever you want for your future projects:-)
             </p>
           </div>
         </div>
