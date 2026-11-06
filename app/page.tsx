@@ -94,6 +94,24 @@ const faqs = [
 ];
 
 export default function Home() {
+  const submissions = [
+    { title: "RC PLANE", author: "Hydrance", desc: "A 3D printed RC plane from scratch using lightweight PLA, brushless motors, and flight hardware.", bg: "/RC-plane.webp" },
+    { title: "Flightsensor", author: "Limitens", desc: "A keychain flight sensor tracking nearby planes using public flight data.", bg: "/flight-sensor.webp" },
+    { title: "Drone controller module", author: "Abohisham", desc: "A 4-motor drone controller with an IMU for position and orientation tracking.", bg: "/drone-pcb.webp" },
+    { title: "Rocket flight controller", author: "dash.pt101", desc: "Rocket flight controller with TVC and active control for flight estimates.", bg: "/rocket-flight-controller.webp" },
+    { title: "Desktop Jet engine", author: "Ryan", desc: "A miniature turbojet replica powered by a DC motor.", bg: "/Desktop-jet-engine.webp" },
+    { title: "Hover", author: "Shauryac", desc: "A custom mini racing/stunt drone with ML-assisted balancing and autonomous operation.", bg: "/Hover.webp" },
+    { title: "RC-transmitter", author: "Yarne", desc: "A 2.4GHz transmitter for drones and vehicles built around the RP2040 and nRF24.", bg: "/RC-transmitter.jpg", span: "md:col-span-2 lg:col-span-1 lg:col-start-2" }
+  ];
+
+  const faqs = [
+    { q: "what is this?", a: "A YSWS where you ship aviation-related hardware/software projects for prizes and funding." },
+    { q: "Is this legit?", a: "Hack Club is the world's largest community of teenage makers and a 501(c)(3) nonprofit supported by tech leaders." },
+    { q: "I don't know any hardware or software!", a: "Don't worry! Takeoff is beginner friendly with starter projects to help you learn." },
+    { q: "Who is eligible?", a: "To be eligible for Takeoff, you must be between the ages of 13 and 18 (inclusive)." },
+    { q: "I have more questions!", a: "Ask in #takeoff-help on the Hack Club Slack." }
+  ];
+
   return (
     <main
       className={`${styles.mainContainer} w-screen overflow-x-hidden flex flex-col items-center text-white relative`}
