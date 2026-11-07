@@ -164,6 +164,20 @@ export default function Home() {
     <main
       className={`${styles.mainContainer} w-screen overflow-x-hidden flex flex-col items-center text-white relative`}
     >
+
+      <img
+  src="/flag-standalone.png"
+  alt=""
+  aria-hidden="true"
+  className="hidden md:block absolute top-32 left-8 w-24 rotate-12 opacity-80 pointer-events-none select-none"
+/>
+<img
+  src="/flag-standalone-bw.webp"
+  alt=""
+  aria-hidden="true"
+  className="hidden md:block absolute top-40 right-12 w-40 opacity-70 pointer-events-none select-none"
+/>
+
       <header className={styles.header}>
         <div className={styles.navbar}>
           <Link href="/" className="font-bold tracking-widest">
@@ -192,7 +206,13 @@ export default function Home() {
       </header>
 
       {/* HERO */}
-      <section id="about" className="max-w-4xl text-center px-6 mt-12">
+<section id="about" className="max-w-6xl text-center px-6 mt-12 relative">
+        <img
+  src="/airplane.png"
+  alt=""
+  aria-hidden="true"
+  className="hidden lg:block absolute -top-8 right-[-80px] w-72 -rotate-12 opacity-90 pointer-events-none select-none"
+/>
         <h1 className="mt-4 text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-sky-300 to-blue-400">
           Takeoff
         </h1>
@@ -411,3 +431,4 @@ export default function Home() {
     </main>
   );
 }
+
