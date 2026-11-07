@@ -1,50 +1,12 @@
-import { signIn } from "@/auth";
-
-export default async function LoginPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ callbackUrl?: string }>;
-}) {
-  const { callbackUrl } = await searchParams;
-  const redirectTo =
-    callbackUrl && callbackUrl.startsWith("/") && !callbackUrl.startsWith("//")
-      ? callbackUrl
-      : "/dashboard";
-
+export default function LoginPage() {
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: "1.5rem",
-        padding: "1rem",
-      }}
-    >
-      <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>Takeoff</h1>
-      <p style={{ opacity: 0.7 }}>Sign in with your Hack Club account!!!Derpa!</p>
-
-      <form
-        action={async () => {
-          "use server";
-          await signIn("hackclub", { redirectTo });
-        }}
-      >
-        <button
-          type="submit"
-          style={{
-            padding: "0.75rem 1.5rem",
-            borderRadius: "0.5rem",
-            border: "none",
-            background: "#ec3750",
-            color: "#fff",
-            fontSize: "1rem",
-            fontWeight: 600,
-            cursor: "pointer",
-          }}
-        >
+    <main className="flex min-h-screen flex-col items-center justify-center gap-6 bg-slate-950 px-6 text-white">
+      <h1 className="bg-gradient-to-r from-sky-300 to-blue-400 bg-clip-text text-5xl font-bold text-transparent">
+        Takeoff
+      </h1>
+      <p className="text-slate-400">Sign in with your Hack Club account.</p>
+      <form>
+        <button className="rounded-md bg-sky-500 px-8 py-3 font-semibold text-white transition hover:scale-105 hover:bg-sky-400">
           Sign in with Hack Club
         </button>
       </form>
