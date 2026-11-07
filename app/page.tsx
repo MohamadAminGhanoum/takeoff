@@ -216,10 +216,10 @@ export default function Home() {
               Slack
             </a>
           </div>
-          <a
-            href="/api/auth/signin/hackclub?callbackUrl=%2Fdashboard"
-            className={styles.navbarButtons}
-          >
+         <a
+  href="/login"
+  className={styles.navbarButtons}
+>
             Sign in
           </a>
         </div>

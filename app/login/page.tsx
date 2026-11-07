@@ -1,33 +1,53 @@
 import { signIn } from "@/auth";
 
-export default function LoginPage() {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ callbackUrl?: string }>;
+}) {
+  const { callbackUrl } = await searchParams;
+  const redirectTo =
+    callbackUrl && callbackUrl.startsWith("/") && !callbackUrl.startsWith("//")
+      ? callbackUrl
+      : "/dashboard";
+
   return (
-    <main className="min-h-screen bg-slate-950 text-white flex items-center justify-center px-6">
-      <div className="max-w-md text-center">
-        <h1 className="text-4xl font-bold text-sky-300">Sign in to Takeoff</h1>
-        <p className="mt-3 text-slate-400">
-          We use Hack Club Auth. One account for every Hack Club program.
-        </p>
-        <form
-          action={async () => {
-            "use server";
-            await signIn("hackclub", { redirectTo: "/dashboard" });
+    <main
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "1.5rem",
+        padding: "1rem",
+      }}
+    >
+      <h1 style={{ fontSize: "2rem", fontWeight: 700 }}>Takeoff</h1>
+      <p style={{ opacity: 0.7 }}>Sign in with your Hack Club account!!!Derpa!</p>
+
+      <form
+        action={async () => {
+          "use server";
+          await signIn("hackclub", { redirectTo });
+        }}
+      >
+        <button
+          type="submit"
+          style={{
+            padding: "0.75rem 1.5rem",
+            borderRadius: "0.5rem",
+            border: "none",
+            background: "#ec3750",
+            color: "#fff",
+            fontSize: "1rem",
+            fontWeight: 600,
+            cursor: "pointer",
           }}
         >
-          <button
-            type="submit"
-            className="mt-8 w-full rounded-lg bg-sky-500 px-6 py-3 font-semibold text-white hover:bg-sky-400 transition"
-          >
-            Continue with Hack Club
-          </button>
-        </form>
-        <a
-          href="/"
-          className="mt-6 inline-block text-sm text-slate-500 hover:text-sky-400"
-        >
-          ← Back to home
-        </a>
-      </div>
+          Sign in with Hack Club
+        </button>
+      </form>
     </main>
   );
 }

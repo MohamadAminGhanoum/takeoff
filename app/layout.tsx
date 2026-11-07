@@ -1,8 +1,17 @@
 import React from 'react';
 import Link from 'next/link';
 import { Home, ClipboardList, Shield, ShieldAlert, Terminal } from 'lucide-react';
+import "./globals.css";
 
-export default function DashboardLayout({
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
+}
+
+export function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
