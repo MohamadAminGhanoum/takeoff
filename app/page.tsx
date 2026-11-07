@@ -1,6 +1,6 @@
 "use client"
 import { Button } from "@/components/ui/button";
-
+import { useEffect, useState } from "react";
 const styles = {
   mainContainer: "min-h-screen bg-slate-950",
   header: "w-full max-w-6xl px-6 py-6",
@@ -24,6 +24,8 @@ cardContent: "relative z-10 flex flex-col h-full",
 
 const SLACK_URL = "https://app.slack.com/client/E09V59WQY1E/C0BATDA4MEF";
 const RSVP_URL = "https://rsvp.hackclub.community/take-off";
+const RSVP_COUNT_URL = "/api/rsvp-count";
+const RSVP_FALLBACK = 49; //HERE REMEMBER TO CHANGE THE RSVP EVERY TIME TO HAVE NR: DONT DELETE THIS COMMENT PLS;)
 
 const projects = [
   {
@@ -140,7 +142,33 @@ const footerLinks = [
   },
 ];
 
+const timeline = [
+  { label: "RSVP NOW", date: "Now", state: "active" },
+  { label: "Sponsored", date: "...", state: "upcoming" },
+  { label: "Takeoff begins", date: "...", state: "upcoming" },
+];
+
 export default function Home() {
+    const [rsvpCount, setRsvpCount] = useState<number>(RSVP_FALLBACK);
+
+  useEffect(() => {
+    let cancelled = false;
+    const tick = async () => {
+      try {
+        const res = await fetch(RSVP_COUNT_URL, { cache: "no-store" });
+        if (!res.ok) throw new Error("no endpoint");
+        const json = await res.json();
+        if (!cancelled && typeof json.count === "number") setRsvpCount(json.count);
+      } catch {
+      }
+    };
+    tick();
+    const id = setInterval(tick, 10000);
+    return () => {
+      cancelled = true;
+      clearInterval(id);
+    };
+  }, []);
   const submissions = [
     { title: "RC PLANE", author: "Hydrance", desc: "A 3D printed RC plane from scratch using lightweight PLA, brushless motors, and flight hardware.", bg: "/RC-plane.webp" },
     { title: "Flightsensor", author: "Limitens", desc: "A keychain flight sensor tracking nearby planes using public flight data.", bg: "/flight-sensor.webp" },
@@ -191,7 +219,7 @@ export default function Home() {
       </header>
 
       {/* HERO */}
-      <section id="about" className="max-w-4xl text-center px-6 mt-24">
+      <section id="about" className="max-w-4xl text-center px-6 mt-12">
         <h1 className="mt-4 text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-sky-300 to-blue-400">
           Takeoff
         </h1>
@@ -222,6 +250,50 @@ export default function Home() {
               Join the Slack
             </a>
           </Button>
+        </div>
+        <div className="mt-6 flex items-center justify-center gap-2 text-sm text-slate-400">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>
+          </span>
+          <span>
+            <span className="text-sky-300 font-semibold">{rsvpCount.toLocaleString()}</span>RSVP&apos;d
+          </span>
+        </div>
+
+      </section>
+
+      {/* TIMELINE STEPPER */}
+      <section className="max-w-4xl w-full mx-auto mt-24 px-6">
+        <h2 className="text-2xl md:text-3xl font-bold text-sky-300 text-center">Takeoff right now:</h2>
+        <p className="mt-3 text-slate-400 text-center text-sm">Where we are so far.</p>
+        <div className="relative mt-12">
+          <div className="hidden md:block absolute top-2 left-8 right-8 h-0.5 bg-slate-700" />
+          <div className="flex flex-col md:flex-row justify-between gap-8 md:gap-0 relative">
+            {timeline.map((step) => (
+              <div key={step.label} className="flex md:flex-col items-center md:items-center gap-3 md:gap-2 md:flex-1">
+                <div
+                  className={`w-4 h-4 rounded-full shrink-0 z-10 ${
+                    step.state === "active"
+                      ? "bg-sky-400 ring-4 ring-sky-400/30 animate-pulse"
+                      : step.state === "done"
+                      ? "bg-sky-600"
+                      : "bg-slate-600"
+                  }`}
+                />
+                <div className="md:text-center">
+                  <div
+                    className={`font-semibold text-sm ${
+                      step.state === "active" ? "text-sky-300" : "text-slate-200"
+                    }`}
+                  >
+                    {step.label}
+                  </div>
+                  <div className="text-xs text-slate-500">{step.date}</div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
