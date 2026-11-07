@@ -1,81 +1,58 @@
-import React from 'react';
 import Link from "next/link";
-import { Terminal, Shield, Wrench, Coins, Plane } from 'lucide-react';
+import { redirect } from "next/navigation";
+import { getRoles } from "@/lib/roles";
 
-// Custom inline blueprint card overrides
-const Card = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => (
-  <div className={`rounded-xl border bg-card/30 backdrop-blur-md text-card-foreground shadow-2xl border-border/80 hover:border-primary/20 transition-all duration-300 ${className}`}>
-    {children}
-  </div>
-);
+const card =
+  "block rounded-xl border border-slate-700 bg-slate-800/50 p-6 transition-colors hover:border-sky-500";
 
-export default async function DashboardHome() {
-  const firstName = "hacker";
+export default async function Dashboard() {
+  const { session, isOrg, isReviewer } = await getRoles();
+  if (!session) redirect("/login");
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8 relative z-10">
+    <main className="min-h-screen bg-slate-950 px-6 py-12 text-white">
+      <div className="mx-auto w-full max-w-4xl">
+        <Link
+          href="/"
+          className="font-bold tracking-widest text-slate-300 transition-colors hover:text-sky-400"
+        >
+          TAKEOFF
+        </Link>
 
-      <div>
-        <h1 className="text-3xl font-black tracking-tight text-foreground drop-shadow-[0_0_15px_rgba(var(--primary),0.2)]">
-          Welcome back, {firstName} 
+        <h1 className="mt-8 text-3xl font-bold text-sky-300">
+          Hey {session.user.name ?? "there"}
         </h1>
-        <p className="text-muted-foreground mt-1 font-mono text-xs uppercase tracking-wider">
-          Node Status: Active // Systems Synchronized
-        </p>
-      </div>
+        {session.user.email && (
+          <p className="mt-2 text-sm text-slate-400">{session.user.email}</p>
+        )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 font-mono">
-        <Card className="p-6">
-          <div className="text-[10px] uppercase tracking-widest text-primary font-bold flex items-center gap-1.5">
-            <Terminal size={12} /> Design hours
-          </div>
-          <div className="mt-2 text-3xl font-black text-foreground">0</div>
-          <p className="text-[10px] text-muted-foreground/60 mt-1 uppercase">via Hackatime</p>
-        </Card>
-
-        <Card className="p-6">
-          <div className="text-[10px] uppercase tracking-widest text-primary font-bold flex items-center gap-1.5">
-            <Wrench size={12} /> Build hours
-          </div>
-          <div className="mt-2 text-3xl font-black text-foreground">0</div>
-          <p className="text-[10px] text-muted-foreground/60 mt-1 uppercase">from journals</p>
-        </Card>
-
-        <Card className="p-6">
-          <div className="text-[10px] uppercase tracking-widest text-primary font-bold flex items-center gap-1.5">
-            <Shield size={12} /> Projects
-          </div>
-          <div className="mt-2 text-3xl font-black text-foreground">0</div>
-          <p className="text-[10px] text-muted-foreground/60 mt-1 uppercase">shipped</p>
-        </Card>
-
-        <Card className="p-6">
-          <div className="text-[10px] uppercase tracking-widest text-primary font-bold flex items-center gap-1.5">
-            <Coins size={12} /> Coins
-          </div>
-          <div className="mt-2 text-3xl font-black text-foreground">0</div>
-          <p className="text-[10px] text-muted-foreground/60 mt-1 uppercase">shop allocation</p>
-        </Card>
-      </div>
-
-      {/* 🛠️ Action Links Section */}
-      <div className="space-y-4">
-        <h2 className="text-sm font-bold uppercase tracking-widest text-primary font-mono flex items-center gap-2">
-          <Plane size={14} /> System Initializations
-        </h2>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Link href="/dashboard/projects">
-            <Card className="p-6 border-dashed border-border/60 hover:border-primary/50 transition-all duration-300 block">
-              <div className="text-2xl drop-shadow-[0_0_8px_rgba(var(--primary),0.3)]">🛩️</div>
-              <h3 className="mt-2 font-bold text-foreground uppercase tracking-wide text-sm">Start a project</h3>
-              <p className="mt-1 text-xs text-muted-foreground font-sans">
-                Deploy a new custom project workspace onto the platform grid ledger.
-              </p>
-            </Card>
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <Link href="/dashboard/participant" className={card}>
+            <h2 className="text-lg font-semibold">Participant dash</h2>
+            <p className="mt-1 text-sm text-slate-400">
+              Your projects and submissions.
+            </p>
           </Link>
+
+          {isReviewer && (
+            <Link href="/dashboard/reviewer" className={card}>
+              <h2 className="text-lg font-semibold">Reviewer dash</h2>
+              <p className="mt-1 text-sm text-slate-400">
+                Review submitted projects.
+              </p>
+            </Link>
+          )}
+
+          {isOrg && (
+            <Link href="/dashboard/org" className={card}>
+              <h2 className="text-lg font-semibold">Org dash</h2>
+              <p className="mt-1 text-sm text-slate-400">
+                Manage reviewers and the program.
+              </p>
+            </Link>
+          )}
         </div>
       </div>
-    </div>
+    </main>
   );
 }
