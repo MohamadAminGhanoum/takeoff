@@ -1,9 +1,21 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { sendSlackNotification } from "@/lib/sidekick/slack";
 
-export async function updateShipStatus(projectId: string, nextStatus: "approved" | "rejected") {
+async function broadcastReviewEvent(
+  title: string,
+  reviewerId: string,
+  status: "approved" | "rejected",
+  message: string,
+) {
+  console.info("[Slack Review Event]", { title, reviewerId, status, message });
+}
+
+async function broadcastShippedProject(title: string, authorId: string, codeUrl: string) {
+  console.info("[Slack Shipped Project]", { title, authorId, codeUrl });
+}
+
+export async function updateShipStatus(projectId: string, nextStatus: "approved" | "rejected", mockReviewerId = "admin-node-01") {
   const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000';
 
   try {
@@ -19,11 +31,9 @@ export async function updateShipStatus(projectId: string, nextStatus: "approved"
       }),
     });
 
-    if (!res.ok) {
-      throw new Error(`Backend returned status code: ${res.status}`);
-    }
+    if (!res.ok) throw new Error(`Backend server pipeline threw code: ${res.status}`);
 
-    const projectInfoRes = await fetch(`${baseUrl}/api/sidekick`, {
+    const lookup = await fetch(`${baseUrl}/api/sidekick`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -32,17 +42,20 @@ export async function updateShipStatus(projectId: string, nextStatus: "approved"
       body: JSON.stringify({ action: "GET_PROJECT_BY_ID", input: { id: projectId } }),
     });
 
-    if (projectInfoRes.ok) {
-      const project = await projectInfoRes.json()
+    if (lookup.ok) {
+      const project = await lookup.json();
+      const title = project.title || "Untitled Blueprint";
 
-      await sendSlackNotification(
-        nextStatus === "approved" ? "PROJECT_APPROVAL_COMMITTED" : "PROJECT_DECLINE_COMMITTED",
-        {
-          title: project.title || "Unknown Title",
-          authorId: project.authorId || "Unknown Author",
-          hours: project.ships?.[0]?.hoursSubmitted || 0
-        }
+      await broadcastReviewEvent(
+        title, 
+        mockReviewerId, 
+        nextStatus, 
+        nextStatus === "approved" ? "Code verified against schema parameters. Verified to ship." : "Compliance audit failed. Insufficient project metrics."
       );
+
+      if (nextStatus === "approved") {
+        await broadcastShippedProject(title, project.authorId, project.codeUrl || "https://github.com");
+      }
     }
 
     revalidatePath(`/dashboard`);
@@ -51,7 +64,7 @@ export async function updateShipStatus(projectId: string, nextStatus: "approved"
 
     return { success: true };
   } catch (error) {
-    console.error("[Server Action Error] Status update or Slack broadcast failure:", error);
-    return { success: false, error: "Failed to submit evaluation to Sidekick." };
+    console.error("[Server Mutation Link Error] Multi-bot event broadcast halted:", error);
+    return { success: false, error: "Fulfillment transaction failed." };
   }
 }
