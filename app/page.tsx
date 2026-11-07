@@ -1,6 +1,7 @@
 "use client"
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
+import { useSession, signIn, signOut } from "next-auth/react";
 const styles = {
   mainContainer: "min-h-screen bg-slate-950",
   header: "w-full max-w-6xl px-6 py-6",
@@ -149,6 +150,7 @@ const timeline = [
 ];
 
 export default function Home() {
+    const { data: session, status } = useSession();
     const [rsvpCount, setRsvpCount] = useState<number>(RSVP_FALLBACK);
 
   useEffect(() => {
@@ -215,6 +217,18 @@ export default function Home() {
               Slack
             </a>
           </div>
+                      {status === "loading" ? null : session ? (
+              <a href="/dashboard" className={styles.navbarButtons}>
+                Dashboard
+              </a>
+            ) : (
+              <button
+                onClick={() => signIn("hackclub", { redirectTo: "/dashboard" })}
+                className={styles.navbarButtons}
+              >
+                Sign in
+              </button>
+            )}
         </div>
       </header>
 
