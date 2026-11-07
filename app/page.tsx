@@ -9,7 +9,10 @@ const styles = {
   showcaseSection: "mt-24 w-full max-w-6xl px-6",
   showcaseHeading: "mb-8 text-center text-2xl font-bold text-sky-300",
   cardStream: "grid gap-6 sm:grid-cols-2 lg:grid-cols-3",
-  blueprintCard: "min-h-72 rounded-xl border border-sky-800 bg-cover bg-center p-6 text-white shadow-lg shadow-sky-950/50",
+  blueprintCard:   "relative overflow-hidden min-h-72 rounded-xl border border-sky-800 bg-cover bg-center p-6 text-white shadow-lg shadow-sky-950/50",
+cardOverlay:
+  "absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-slate-900/40 z-0",
+cardContent: "relative z-10 flex flex-col h-full",
   cardTitle: "text-xl font-bold",
   cardCreator: "mt-1 text-sm text-sky-300",
   cardDescription: "mt-4 text-sm leading-relaxed text-slate-200",
@@ -258,22 +261,26 @@ export default function Home() {
       </section>
 
       {/* SHOWCASE */}
-      <section id="showcase" className={styles.showcaseSection}>
-        <h2 className={styles.showcaseHeading}>[Previous submissions]</h2>
-        <div className={styles.cardStream}>
-          {projects.map((p) => (
-            <div
-              key={p.title}
-              className={styles.blueprintCard}
-              style={{ backgroundImage: `url('${p.image}')` }}
-            >
-              <h3 className={styles.cardTitle}>{p.title}</h3>
-              <div className={styles.cardCreator}>By {p.creator}</div>
-              <p className={styles.cardDescription}>{p.description}</p>
-            </div>
-          ))}
+<section id="showcase" className={styles.showcaseSection}>
+  <h2 className={styles.showcaseHeading}>[Previous submissions]</h2>
+  <div className={styles.cardStream}>
+    {projects.map((p) => (
+      <div
+        key={p.title}
+        className={styles.blueprintCard}
+        style={{ backgroundImage: `url('${p.image}')` }}
+      >
+        {/* dark overlay so text stays readable on the img */}
+        <div className={styles.cardOverlay} />
+        <div className={styles.cardContent}>
+          <h3 className={styles.cardTitle}>{p.title}</h3>
+          <div className={styles.cardCreator}>By {p.creator}</div>
+          <p className={styles.cardDescription}>{p.description}</p>
         </div>
-      </section>
+      </div>
+    ))}
+  </div>
+</section>
 
       {/* FAQ */}
       <section id="faq" className={styles.FAQ}>
@@ -313,7 +320,7 @@ export default function Home() {
           .
         </p>
         <p className="mt-4 text-xs text-slate-600">
-          🏳️ Built with love, caffeine, and probably too many servo datasheets. MORE DATASHEETS!!! (Java Junkie an org...)
+          🏳️ Built with love, (Java Junkie and Abohisham orgs...)
         </p>
       </footer>
     </main>
