@@ -8,6 +8,9 @@ import { NextRequest } from "next/server";
 import { POST as sidekickBackendEngine } from "@/lib/sidekick/route";
 import { updateShipStatus } from "../../[id]/actions";
 import type { Project, ShipStatus } from "@/lib/sidekick/types";
+import CheckPanel from "@/components/checker/CheckPanel";
+import { aiConfigured } from "@/lib/checker/ai";
+import { loadLastCheck } from "@/lib/checker/service";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -62,6 +65,9 @@ export default async function ReviewerWorkstationPage({ params }: PageProps) {
   const currentStatus: ShipStatus = project.ships && project.ships.length > 0 
     ? project.ships[project.ships.length - 1].status 
     : "pending";
+
+  const lastCheck = await loadLastCheck(project.id);
+  const lastShip = project.ships?.[project.ships.length - 1];
 
   return (
     <div className="max-w-5xl mx-auto space-y-6 relative z-10">
@@ -120,6 +126,17 @@ export default async function ReviewerWorkstationPage({ params }: PageProps) {
               </div>
             </CardContent>
           </Card>
+
+          <CheckPanel
+            initial={lastCheck}
+            aiAvailable={aiConfigured()}
+            defaults={{
+              repoUrl: project.codeUrl,
+              description: project.description,
+              hours: lastShip?.hoursSubmitted,
+              projectId: project.id,
+            }}
+          />
         </div>
 
         <div className="space-y-6">

@@ -77,6 +77,12 @@ export default async function ReviewerDashboardPage({ searchParams }: PageProps)
            Hi!
           </p>
         </div>
+        <Link
+          href="/dashboard/reviewer/check"
+          className="rounded-md border border-slate-700 px-3 py-1.5 text-sm text-slate-200 hover:bg-slate-800"
+        >
+          Check a repo
+        </Link>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">

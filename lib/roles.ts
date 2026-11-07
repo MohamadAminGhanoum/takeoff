@@ -8,6 +8,7 @@ const parse = (v?: string) =>
 export async function getRoles() {
   const session = await auth();
   const id = session?.user.id;
+  console.log("MY ID:", id);
 
   const isOrg = !!id && parse(process.env.ORG_IDS).has(id);
 
