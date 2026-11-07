@@ -13,7 +13,28 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       authorization: {
 params: { scope: "openid profile" },
       },
-      profile(profile: any) {
+      profile(profile: {
+        identity?: {
+          id?: string | number;
+          sub?: string;
+          first_name?: string;
+          last_name?: string;
+          name?: string;
+          primary_email?: string;
+          email?: string;
+          avatar_url?: string;
+          profile_picture?: string;
+        };
+        id?: string | number;
+        sub?: string;
+        first_name?: string;
+        last_name?: string;
+        name?: string;
+        primary_email?: string;
+        email?: string;
+        avatar_url?: string;
+        profile_picture?: string;
+      }) {
         const id = profile.identity ?? profile;
         return {
           id: String(id.id ?? id.sub ?? ""),

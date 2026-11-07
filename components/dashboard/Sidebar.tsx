@@ -1,8 +1,6 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { signOut } from "next-auth/react";
-
 const tabs = [
   { label: "Projects", href: "/dashboard/projects" },
   { label: "Resources", href: "/dashboard/resources" },
@@ -66,7 +64,16 @@ export default function Sidebar({
           </div>
         </div>
         <button
-          onClick={() => signOut({ callbackUrl: "/" })}
+          onClick={async () => {
+            const csrfResponse = await fetch("/api/auth/csrf");
+            const { csrfToken } = await csrfResponse.json();
+            await fetch("/api/auth/signout", {
+              method: "POST",
+              headers: { "Content-Type": "application/x-www-form-urlencoded" },
+              body: new URLSearchParams({ csrfToken, callbackUrl: "/" }),
+            });
+            window.location.assign("/");
+          }}
           className="mt-3 w-full rounded-lg border border-slate-700 px-3 py-1.5 text-xs text-slate-400 hover:bg-slate-800 hover:text-white transition"
         >
           Sign out

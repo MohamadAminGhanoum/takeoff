@@ -1,7 +1,7 @@
 "use client"
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
-import { useSession, signIn, signOut } from "next-auth/react";
 const styles = {
   mainContainer: "min-h-screen bg-slate-950",
   header: "w-full max-w-6xl px-6 py-6",
@@ -150,8 +150,7 @@ const timeline = [
 ];
 
 export default function Home() {
-    const { data: session, status } = useSession();
-    const [rsvpCount, setRsvpCount] = useState<number>(RSVP_FALLBACK);
+  const [rsvpCount, setRsvpCount] = useState<number>(RSVP_FALLBACK);
 
   useEffect(() => {
     let cancelled = false;
@@ -195,9 +194,9 @@ export default function Home() {
     >
       <header className={styles.header}>
         <div className={styles.navbar}>
-          <a href="/" className="font-bold tracking-widest">
+          <Link href="/" className="font-bold tracking-widest">
             TAKEOFF
-          </a>
+          </Link>
           <div className="flex gap-6 items-center">
             <a href="#about" className={styles.navbarButtons}>
               About
@@ -217,18 +216,12 @@ export default function Home() {
               Slack
             </a>
           </div>
-                      {status === "loading" ? null : session ? (
-              <a href="/dashboard" className={styles.navbarButtons}>
-                Dashboard
-              </a>
-            ) : (
-              <button
-                onClick={() => signIn("hackclub", { redirectTo: "/dashboard" })}
-                className={styles.navbarButtons}
-              >
-                Sign in
-              </button>
-            )}
+          <a
+            href="/api/auth/signin/hackclub?callbackUrl=%2Fdashboard"
+            className={styles.navbarButtons}
+          >
+            Sign in
+          </a>
         </div>
       </header>
 
@@ -315,7 +308,7 @@ export default function Home() {
       <section className="max-w-4xl mx-auto mt-24 px-6 text-center">
         <h2 className="text-2xl md:text-3xl font-bold text-sky-300">What counts?</h2>
         <p className="mt-3 text-slate-400">
-          (You can always ask in #takeoff-help if you aren't sure if your project counts.):
+          (You can always ask in #takeoff-help if you aren&apos;t sure if your project counts.):
         </p>
         <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
           {buildIdeas.map(([emoji, label]) => (
