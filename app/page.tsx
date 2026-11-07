@@ -113,6 +113,33 @@ const faqs = [
   },
 ];
 
+const footerLinks = [
+  {
+    title: "Resources",
+    links: [
+      { label: "Code of Conduct", href: "https://hackclub.com/conduct" },
+      { label: "Hackatime", href: "https://hackatime.hackclub.com" },
+      { label: "Hack Club Bank", href: "https://hackclub.com/bank" },
+      { label: "Privacy & Terms", href: "https://hackclub.com/privacy-and-terms#hack-club-privacy-notice" },
+    ],
+  },
+  {
+    title: "Hack Club",
+    links: [
+      { label: "Hack Club Home", href: "https://hackclub.com" },
+      { label: "Hackclub team", href: "https://hackclub.com/team" },
+      { label: "YSWS Directory", href: "https://ysws.hackclub.com" },
+      { label: "Donate", href: "https://hackclub.com/philanthropy" },
+    ],
+  },
+  {
+    title: "Takeoff",
+    links: [
+
+    ],
+  },
+];
+
 export default function Home() {
   const submissions = [
     { title: "RC PLANE", author: "Hydrance", desc: "A 3D printed RC plane from scratch using lightweight PLA, brushless motors, and flight hardware.", bg: "/RC-plane.webp" },
@@ -223,7 +250,6 @@ export default function Home() {
         <div className="mt-8 grid md:grid-cols-3 gap-6 text-left">
           <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-6">
             <div className="text-sky-400 font-bold text-sm tracking-widest uppercase">
-              Step 1
             </div>
             <h3 className="mt-2 text-xl font-semibold">Design</h3>
             <p className="mt-2 text-slate-400 text-sm">
@@ -241,7 +267,6 @@ export default function Home() {
           </div>
           <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-6">
             <div className="text-sky-400 font-bold text-sm tracking-widest uppercase">
-              Step 2
             </div>
             <h3 className="mt-2 text-xl font-semibold">Ship</h3>
             <p className="mt-2 text-slate-400 text-sm">
@@ -250,7 +275,6 @@ export default function Home() {
           </div>
           <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-6">
             <div className="text-sky-400 font-bold text-sm tracking-widest uppercase">
-              Step 3
             </div>
             <h3 className="mt-2 text-xl font-semibold">Get prizes</h3>
             <p className="mt-2 text-slate-400 text-sm">
@@ -293,6 +317,33 @@ export default function Home() {
         ))}
       </section>
 
+      {/* RESOURCES FOOTER */}
+      <section className="w-full max-w-6xl mx-auto mt-24 px-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-8 text-left border-t border-slate-800 pt-12">
+          {footerLinks.map((col) => (
+            <div key={col.title}>
+              <h3 className="text-sky-300 font-bold text-sm uppercase tracking-widest mb-4">
+                {col.title}
+              </h3>
+              <ul className="space-y-2 text-sm">
+                {col.links.map((link) => (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      target={link.href.startsWith("#") ? undefined : "_blank"}
+                      rel={link.href.startsWith("#") ? undefined : "noopener noreferrer"}
+                      className="text-slate-400 hover:text-sky-400 transition-colors"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* FOOTER */}
       <footer className="w-full max-w-4xl mx-auto mt-24 mb-12 px-6 text-center text-slate-500 text-sm">
         <p>
@@ -320,7 +371,7 @@ export default function Home() {
           .
         </p>
         <p className="mt-4 text-xs text-slate-600">
-          🏳️ Built with love, (Java Junkie and Abohisham orgs...)
+          🏳️ Built with love, (Abohisham and Java Junkie orgs...)
         </p>
       </footer>
     </main>
