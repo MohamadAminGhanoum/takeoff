@@ -1,13 +1,12 @@
 {
   "$schema": "schema.json",
-  "style": "default",
+  "style": "radix-nova",
   "rsc": true,
   "tsx": true,
   "tailwind": {
     "config": "",
     "css": "app/globals.css",
-    "baseColor": "jet-blue",
-    "accentColor": "dark-blue",
+    "baseColor": "mist",
     "cssVariables": true,
     "prefix": ""
   },
@@ -21,6 +20,6 @@
     "hooks": "@/hooks"
   },
   "menuColor": "default",
-  "menuAccent": "bold",
+  "menuAccent": "subtle",
   "registries": {}
 }
