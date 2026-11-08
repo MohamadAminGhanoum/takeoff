@@ -11,6 +11,8 @@ import type { Project, ShipStatus } from "@/lib/sidekick/types";
 import CheckPanel from "@/components/checker/CheckPanel";
 import { aiConfigured } from "@/lib/checker/ai";
 import { loadLastCheck } from "@/lib/checker/service";
+import { loadTickets } from "@/lib/nephthys/client";
+import HelpTicketsPanel from "@/components/support/HelpTicketsPanel";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -67,6 +69,7 @@ export default async function ReviewerWorkstationPage({ params }: PageProps) {
     : "pending";
 
   const lastCheck = await loadLastCheck(project.id);
+  const helpTickets = await loadTickets();
   const lastShip = project.ships?.[project.ships.length - 1];
 
   return (
@@ -137,6 +140,8 @@ export default async function ReviewerWorkstationPage({ params }: PageProps) {
               projectId: project.id,
             }}
           />
+
+          <HelpTicketsPanel authorId={project.authorId} result={helpTickets} />
         </div>
 
         <div className="space-y-6">
