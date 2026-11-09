@@ -199,7 +199,7 @@ export default function SceneBackground() {
         addBox([1.2, 1.2, 0.3], [0, 0, 0], materials.drone, slot);
         addBox([3.2, 0.15, 0.1], [0, 0, 0], materials.drone, slot, Math.PI / 4);
         addBox([3.2, 0.15, 0.1], [0, 0, 0], materials.drone, slot, -Math.PI / 4);
-        const rotors: THREE.Mesh[] = [];
+        const rotors: Mesh[] = [];
         for (const rotorX of [1.13, -1.13]) {
           for (const rotorY of [1.13, -1.13]) rotors.push(addCylinderAlongZ(0.6, 0.05, [rotorX, rotorY, 0.2], materials.rotor, slot));
         }
