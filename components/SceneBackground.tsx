@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
-import type { Material, Object3D, Mesh } from "three";
+import type { Material, Object3D, Mesh, Color, Fog } from "three";
 
 const SCROLL_MULTIPLIER = 1;
 const LAST_FRAME = 720;
@@ -292,7 +292,7 @@ export default function SceneBackground() {
       let displayedFrame = frameFromScroll();
       const clock = new THREE.Clock();
 
-      function placeAtFrame(object: THREE.Object3D, keys: [number, [number, number, number]][], frame: number) {
+      function placeAtFrame(object: Object3D, keys: [number, [number, number, number]][], frame: number) {
         object.position.set(...sampleKeys(keys, frame));
       }
 
@@ -318,13 +318,13 @@ export default function SceneBackground() {
         biplane.propeller.rotation.y = elapsed * 30;
         rocket.flame.scale.set(1, 0.85 + Math.random() * 0.3, 1);
         rocket.flame.visible = frame > 481;
-        exterior747.visible = frame >= EXTERIOR_REVEAL_FRAME;
+        exterior747!.visible = frame >= EXTERIOR_REVEAL_FRAME;
 
         const spaceAmount = THREE.MathUtils.smoothstep(frame, SKY_FADE_START, SKY_FADE_END);
-        scene.background.copy(SKY_COLOUR).lerp(SPACE_COLOUR, spaceAmount);
-        scene.fog.color.copy(scene.background);
-        starMaterial.opacity = spaceAmount;
-
+        (scene.background as Color).copy(SKY_COLOUR).lerp(SPACE_COLOUR, spaceAmount);
+        (scene.fog as Fog).color.copy(scene.background as Color);
+                starMaterial.opacity = spaceAmount;
+        
         renderer.render(scene, camera);
         rafId = requestAnimationFrame(render);
       }
