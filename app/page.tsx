@@ -2,9 +2,10 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
+import SceneBackground from "@/components/SceneBackground";
 
 const styles = {
-  mainContainer: "min-h-screen bg-slate-950",
+  mainContainer: "min-h-screen",
   header: "w-full max-w-6xl px-6 py-6",
   navbar: "flex items-center justify-between",
   navbarButtons: "text-slate-300 transition-colors hover:text-sky-400",
@@ -162,9 +163,11 @@ export default function Home() {
 
   return (
     <main
-      className={`${styles.mainContainer} w-screen overflow-x-hidden flex flex-col items-center text-white relative`}
+      className={`${styles.mainContainer} w-screen overflow-x-hidden flex flex-col items-center text-white relative bg-slate-950/90`}
     >
+      <SceneBackground />
 
+      <div className="relative z-10 w-full flex flex-col items-center">
       <img
   src="/flag-standalone.png"
   alt=""
@@ -177,7 +180,7 @@ export default function Home() {
   aria-hidden="true"
   className="hidden md:block absolute top-40 right-12 w-40 opacity-70 pointer-events-none select-none"
 />
-
+<div>
       <header className={styles.header}>
         <div className={styles.navbar}>
           <Link href="/" className="font-bold tracking-widest">
@@ -428,6 +431,8 @@ export default function Home() {
           🏳️ Built with love, (Abohisham and Java Junkie orgs...)
         </p>
       </footer>
+      </div>
+            </div>
     </main>
   );
 }
