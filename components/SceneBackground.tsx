@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
+import type { Material, Object3D, Mesh, Object3D } from "three";
 
-// Tune this if the airplane moves too fast/slow
 const SCROLL_MULTIPLIER = 1;
 const LAST_FRAME = 720;
 
@@ -120,28 +120,27 @@ export default function SceneBackground() {
         cloudDeck: material(0xeceef5, { roughness: 1 }),
       };
 
-      function addBox(size: [number, number, number], position: [number, number, number], mat: THREE.Material, parent: THREE.Object3D, rotationZ = 0) {
-        const mesh = new THREE.Mesh(new THREE.BoxGeometry(...size), mat);
+      function addBox(size: [number, number, number], position: [number, number, number], mat: Material, parent: Object3D, rotationZ = 0) {        const mesh = new THREE.Mesh(new THREE.BoxGeometry(...size), mat);
         mesh.position.set(...position);
         mesh.rotation.z = rotationZ;
         parent.add(mesh);
         return mesh;
       }
 
-      function addCylinderAlongY(radius: number, length: number, position: [number, number, number], mat: THREE.Material, parent: THREE.Object3D) {
+      function addCylinderAlongY(radius: number, length: number, position: [number, number, number], mat: Material, parent: Object3D) {
         const mesh = new THREE.Mesh(new THREE.CylinderGeometry(radius, radius, length, 24), mat);
         mesh.position.set(...position);
         parent.add(mesh);
         return mesh;
       }
 
-      function addCylinderAlongZ(radius: number, length: number, position: [number, number, number], mat: THREE.Material, parent: THREE.Object3D) {
+      function addCylinderAlongZ(radius: number, length: number, position: [number, number, number], mat: Material, parent: Object3D) {
         const mesh = addCylinderAlongY(radius, length, position, mat, parent);
         mesh.rotation.x = Math.PI / 2;
         return mesh;
       }
 
-      function addEllipsoid(radii: [number, number, number], position: [number, number, number], mat: THREE.Material, parent: THREE.Object3D) {
+      function addEllipsoid(radii: [number, number, number], position: [number, number, number], mat: Material, parent: Object3D) {
         const mesh = new THREE.Mesh(new THREE.SphereGeometry(1, 24, 16), mat);
         mesh.scale.set(...radii);
         mesh.position.set(...position);
@@ -149,7 +148,7 @@ export default function SceneBackground() {
         return mesh;
       }
 
-      function addCone(radius: number, length: number, position: [number, number, number], mat: THREE.Material, parent: THREE.Object3D, pointingDown = false) {
+      function addCone(radius: number, length: number, position: [number, number, number], mat: Material, parent: Object3D, pointingDown = false) {
         const mesh = new THREE.Mesh(new THREE.ConeGeometry(radius, length, 24), mat);
         mesh.position.set(...position);
         mesh.rotation.x = pointingDown ? -Math.PI / 2 : Math.PI / 2;
