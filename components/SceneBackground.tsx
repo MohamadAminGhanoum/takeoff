@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
-import type { Material, Object3D, Mesh, Object3D } from "three";
+import type { Material, Object3D, Mesh } from "three";
 
 const SCROLL_MULTIPLIER = 1;
 const LAST_FRAME = 720;
