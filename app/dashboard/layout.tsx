@@ -1,25 +1,20 @@
-import { auth } from "@/auth";
-import { redirect } from "next/navigation";
-import Sidebar from "@/components/dashboard/Sidebar";
+import type { Metadata } from "next";
+import { Inter, Geist_Mono } from "next/font/google";
+import "./globals.css";
 
-export default async function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const session = await auth();
-  if (!session?.user) redirect("/login");
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
+const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" });
 
+export const metadata: Metadata = {
+  title: "Takeoff | Build Aviation. Get Hardware.",
+  description:
+    "A Hack Club YSWS where you ship aviation-related hardware and software projects for funding and aviation-themed prizes.",
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-slate-950 text-white flex">
-      <Sidebar
-        user={{
-          name: session.user.name ?? "Hacker",
-          email: session.user.email ?? "",
-          image: session.user.image ?? null,
-        }}
-      />
-      <main className="flex-1 overflow-y-auto">{children}</main>
-    </div>
+    <html lang="en" className={`${inter.variable} ${geistMono.variable}`}>
+      <body>{children}</body>
+    </html>
   );
 }

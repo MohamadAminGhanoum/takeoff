@@ -1,15 +1,14 @@
-"use client"
+"use client";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import SceneBackground from "@/components/SceneBackground";
 
 const styles = {
-  mainContainer: "min-h-screen",
-  header: "w-full max-w-6xl px-6 py-6",
-  navbar: "flex items-center justify-between",
-  navbarButtons: "text-slate-300 transition-colors hover:text-sky-400",
-  showcaseSection: "mt-24 w-full max-w-6xl px-6",
+  mainContainer: "min-h-screen w-full overflow-x-hidden flex flex-col items-center text-white relative bg-slate-950/90",
+  header: "w-full max-w-6xl mx-auto px-6 py-6",
+  navbar: "flex items-center justify-between gap-4",
+  navbarButtons: "text-slate-300 transition-colors hover:text-sky-400 text-sm sm:text-base",
+  showcaseSection: "mt-24 w-full max-w-6xl mx-auto px-6",
   showcaseHeading: "mb-8 text-center text-2xl font-bold text-sky-300",
   cardStream: "grid gap-6 sm:grid-cols-2 lg:grid-cols-3",
   blueprintCard:
@@ -20,7 +19,7 @@ const styles = {
   cardTitle: "text-xl font-bold",
   cardCreator: "mt-1 text-sm text-sky-300",
   cardDescription: "mt-4 text-sm leading-relaxed text-slate-200",
-  FAQ: "mt-24 w-full max-w-3xl px-6",
+  FAQ: "mt-24 w-full max-w-3xl mx-auto px-6",
   FAQstyle: "border-b border-slate-700 py-4",
   FAQlist: "cursor-pointer font-semibold text-slate-200",
   FAQcontent: "mt-3 text-slate-400",
@@ -29,11 +28,11 @@ const styles = {
 const SLACK_URL = "https://app.slack.com/client/E09V59WQY1E/C0BATDA4MEF";
 const RSVP_URL = "https://rsvp.hackclub.community/take-off";
 const RSVP_COUNT_URL = "/api/rsvp-count";
-const RSVP_FALLBACK = 49; //HERE REMEMBER TO CHANGE THE RSVP EVERY TIME TO HAVE NR: DONT DELETE THIS COMMENT PLS;)
+const RSVP_FALLBACK = 49;
 
 const projects = [
   {
-    title: "RC PLANE",
+    title: "RC Plane",
     creator: "Hydrance",
     image: "/RC-plane.webp",
     description:
@@ -84,20 +83,35 @@ const projects = [
 
 const buildIdeas = [
   ["🛩️", "RC planes & drones"],
-  ["🛩️", "Hobby radar / ADS-B"],
-  ["🛩️", "Flight trackers"],
-  ["🛩️", "Aviation games"],
-  ["🛩️", "Rockets"],
-  ["🛩️", "Instrument panel"],
-  ["🛩️", "Flight sims & mods"],
+  ["📡", "Hobby radar / ADS-B"],
+  ["📍", "Flight trackers"],
+  ["🎮", "Aviation games"],
+  ["🚀", "Rockets"],
+  ["🎛️", "Instrument panel"],
+  ["🕹️", "Flight sims & mods"],
 ];
 
 const faqs = [
-  { q: "what is this?", a: "A YSWS where you ship aviation-related hardware/software projects for prizes and funding." },
-  { q: "Is this legit?", a: "Hack Club is the world's largest community of teenage makers and a 501(c)(3) nonprofit supported by tech leaders." },
-  { q: "I don't know any hardware or software!", a: "Don't worry! Takeoff is beginner friendly with starter projects to help you learn." },
-  { q: "Who is eligible?", a: "To be eligible for Takeoff, you must be between the ages of 13 and 18 (inclusive)." },
-  { q: "I have more questions!", a: "Ask in #takeoff-help on the Hack Club Slack." },
+  {
+    q: "What is this?",
+    a: "A YSWS where you ship aviation-related hardware/software projects for prizes and funding.",
+  },
+  {
+    q: "Is this legit?",
+    a: "Hack Club is the world's largest community of teenage makers and a 501(c)(3) nonprofit supported by tech leaders.",
+  },
+  {
+    q: "I don't know any hardware or software!",
+    a: "Don't worry! Takeoff is beginner friendly with starter projects to help you learn.",
+  },
+  {
+    q: "Who is eligible?",
+    a: "To be eligible for Takeoff, you must be between the ages of 13 and 18 (inclusive).",
+  },
+  {
+    q: "I have more questions!",
+    a: "Ask in #takeoff-help on the Hack Club Slack.",
+  },
 ];
 
 const footerLinks = [
@@ -114,14 +128,19 @@ const footerLinks = [
     title: "Hack Club",
     links: [
       { label: "Hack Club Home", href: "https://hackclub.com" },
-      { label: "Hackclub team", href: "https://hackclub.com/team" },
+      { label: "Hack Club Team", href: "https://hackclub.com/team" },
       { label: "YSWS Directory", href: "https://ysws.hackclub.com" },
       { label: "Donate", href: "https://hackclub.com/philanthropy" },
     ],
   },
   {
     title: "Takeoff",
-    links: [] as { label: string; href: string }[],
+    links: [
+      { label: "About", href: "#about" },
+      { label: "Projects", href: "#showcase" },
+      { label: "FAQ", href: "#faq" },
+      { label: "RSVP", href: RSVP_URL },
+    ],
   },
 ];
 
@@ -151,6 +170,7 @@ export default function Home() {
         const json = await res.json();
         if (!cancelled && typeof json.count === "number") setRsvpCount(json.count);
       } catch {
+        // keep fallback count if endpoint is unreachable
       }
     };
     tick();
@@ -162,278 +182,278 @@ export default function Home() {
   }, []);
 
   return (
-    <main
-      className={`${styles.mainContainer} w-screen overflow-x-hidden flex flex-col items-center text-white relative bg-slate-950/90`}
-    >
+    <main className={styles.mainContainer}>
       <SceneBackground />
 
       <div className="relative z-10 w-full flex flex-col items-center">
-      <img
-  src="/flag-standalone.png"
-  alt=""
-  aria-hidden="true"
-  className="hidden md:block absolute top-32 left-8 w-24 rotate-12 opacity-80 pointer-events-none select-none"
-/>
-<img
-  src="/flag-standalone-bw.webp"
-  alt=""
-  aria-hidden="true"
-  className="hidden md:block absolute top-40 right-12 w-40 opacity-70 pointer-events-none select-none"
-/>
-<div>
-      <header className={styles.header}>
-        <div className={styles.navbar}>
-          <Link href="/" className="font-bold tracking-widest">
-            TAKEOFF
-          </Link>
-          <div className="flex gap-6 items-center">
-            <a href="#about" className={styles.navbarButtons}>About</a>
-            <a href="#showcase" className={styles.navbarButtons}>Some Projects</a>
-            <a href="#faq" className={styles.navbarButtons}>FAQ</a>
+        <img
+          src="/flag-standalone.png"
+          alt=""
+          aria-hidden="true"
+          className="hidden md:block absolute top-32 left-8 w-24 rotate-12 opacity-80 pointer-events-none select-none"
+        />
+        <img
+          src="/flag-standalone-bw.webp"
+          alt=""
+          aria-hidden="true"
+          className="hidden md:block absolute top-40 right-12 w-40 opacity-70 pointer-events-none select-none"
+        />
+
+        <header className={styles.header}>
+          <nav className={styles.navbar}>
+            <Link href="/" className="font-bold tracking-widest shrink-0">
+              TAKEOFF
+            </Link>
+            <div className="hidden sm:flex gap-6 items-center">
+              <a href="#about" className={styles.navbarButtons}>About</a>
+              <a href="#showcase" className={styles.navbarButtons}>Some Projects</a>
+              <a href="#faq" className={styles.navbarButtons}>FAQ</a>
+              <a
+                href={SLACK_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.navbarButtons}
+              >
+                Slack
+              </a>
+            </div>
+            <Link
+              href={signedIn ? "/dashboard" : "/login"}
+              className={`${styles.navbarButtons} shrink-0`}
+            >
+              {signedIn ? "Dashboard" : "Sign in"}
+            </Link>
+          </nav>
+        </header>
+
+        {/* HERO */}
+        <section id="about" className="w-full max-w-6xl mx-auto text-center px-6 mt-12 relative">
+          <img
+            src="/airplane.png"
+            alt=""
+            aria-hidden="true"
+            className="hidden lg:block absolute -top-8 right-0 w-72 -rotate-12 opacity-90 pointer-events-none select-none"
+          />
+          <h1 className="mt-4 text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-sky-300 to-blue-400">
+            Takeoff
+          </h1>
+          <p className="mt-2 text-2xl md:text-3xl text-slate-300 font-medium">
+            Coming soon...
+          </p>
+          <p className="mt-8 text-lg md:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
+            A YSWS where you ship aviation-related hardware and/or software projects (drones, hobby radars, flight trackers, aviation games, etc.), and we ship aviation-related prizes and funding for your hardware projects!
+          </p>
+
+          <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <a
+              href={RSVP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center rounded-md h-11 px-8 bg-sky-500 hover:bg-sky-400 text-white font-semibold transition-all duration-300 hover:scale-105"
+            >
+              RSVP for Takeoff
+            </a>
             <a
               href={SLACK_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className={styles.navbarButtons}
+              className="inline-flex items-center justify-center rounded-md h-11 px-8 bg-transparent border-2 border-slate-500 text-slate-200 hover:bg-slate-700 hover:text-white font-semibold transition-all duration-300"
             >
-              Slack
-            </a>
-          </div>
-          <Link
-            href={signedIn ? "/dashboard" : "/login"}
-            className={styles.navbarButtons}
-          >
-            {signedIn ? "Dashboard" : "Sign in"}
-          </Link>
-        </div>
-      </header>
-
-      {/* HERO */}
-<section id="about" className="max-w-6xl text-center px-6 mt-12 relative">
-        <img
-  src="/airplane.png"
-  alt=""
-  aria-hidden="true"
-  className="hidden lg:block absolute -top-8 right-[-80px] w-72 -rotate-12 opacity-90 pointer-events-none select-none"
-/>
-        <h1 className="mt-4 text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-sky-300 to-blue-400">
-          Takeoff
-        </h1>
-        <p className="mt-2 text-2xl md:text-3xl text-slate-300 font-medium">
-          Coming soon...
-        </p>
-        <p className="mt-8 text-lg md:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
-          A YSWS where you ship aviation-related hardware and/or software projects (drones, hobby radars, flight trackers, aviation games, etc.), and we ship aviation-related prizes and funding for your hardware projects!
-        </p>
-
-        <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Button
-            size="lg"
-            className="bg-sky-500 hover:bg-sky-400 text-white font-semibold px-8 transition-all duration-300 hover:scale-105"
-          >
-            <a href={RSVP_URL} target="_blank" rel="noopener noreferrer">
-              RSVP for Takeoff
-            </a>
-          </Button>
-          <Button
-            variant="outline"
-            size="lg"
-            className="bg-transparent border-2 border-slate-500 text-slate-200 hover:bg-slate-700 hover:text-white transition-all duration-300"
-          >
-            <a href={SLACK_URL} target="_blank" rel="noopener noreferrer">
               Join the Slack
             </a>
-          </Button>
-        </div>
-        <div className="mt-6 flex items-center justify-center gap-2 text-sm text-slate-400">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>
-          </span>
-          <span>
-            <span className="text-sky-300 font-semibold">{rsvpCount.toLocaleString()}</span>{" "}
-            RSVP&apos;d
-          </span>
-        </div>
-      </section>
+          </div>
 
-      {/* TIMELINE STEPPER */}
-      <section className="max-w-4xl w-full mx-auto mt-24 px-6">
-        <h2 className="text-2xl md:text-3xl font-bold text-sky-300 text-center">Takeoff right now:</h2>
-        <p className="mt-3 text-slate-400 text-center text-sm">Where we are so far.</p>
-        <div className="relative mt-12">
-          <div className="hidden md:block absolute top-2 left-8 right-8 h-0.5 bg-slate-700" />
-          <div className="flex flex-col md:flex-row justify-between gap-8 md:gap-0 relative">
-            {timeline.map((step) => (
-              <div key={step.label} className="flex md:flex-col items-center md:items-center gap-3 md:gap-2 md:flex-1">
-                <div
-                  className={`w-4 h-4 rounded-full shrink-0 z-10 ${
-                    step.state === "active"
-                      ? "bg-sky-400 ring-4 ring-sky-400/30 animate-pulse"
-                      : "bg-slate-600"
-                  }`}
-                />
-                <div className="md:text-center">
+          <div className="mt-6 flex items-center justify-center gap-2 text-sm text-slate-400">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>
+            </span>
+            <span>
+              <span className="text-sky-300 font-semibold">{rsvpCount.toLocaleString()}</span>{" "}
+              RSVP&apos;d
+            </span>
+          </div>
+        </section>
+
+        {/* TIMELINE STEPPER */}
+        <section className="max-w-4xl w-full mx-auto mt-24 px-6">
+          <h2 className="text-2xl md:text-3xl font-bold text-sky-300 text-center">Takeoff right now:</h2>
+          <p className="mt-3 text-slate-400 text-center text-sm">Where we are so far.</p>
+          <div className="relative mt-12">
+            <div className="hidden md:block absolute top-2 left-8 right-8 h-0.5 bg-slate-700" />
+            <div className="flex flex-col md:flex-row justify-between gap-8 md:gap-0 relative">
+              {timeline.map((step) => (
+                <div key={step.label} className="flex md:flex-col items-center gap-3 md:gap-2 md:flex-1">
                   <div
-                    className={`font-semibold text-sm ${
-                      step.state === "active" ? "text-sky-300" : "text-slate-200"
+                    className={`w-4 h-4 rounded-full shrink-0 z-10 ${
+                      step.state === "active"
+                        ? "bg-sky-400 ring-4 ring-sky-400/30 animate-pulse"
+                        : "bg-slate-600"
                     }`}
-                  >
-                    {step.label}
+                  />
+                  <div className="md:text-center">
+                    <div
+                      className={`font-semibold text-sm ${
+                        step.state === "active" ? "text-sky-300" : "text-slate-200"
+                      }`}
+                    >
+                      {step.label}
+                    </div>
+                    <div className="text-xs text-slate-500">{step.date}</div>
                   </div>
-                  <div className="text-xs text-slate-500">{step.date}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* WHAT COUNTS */}
+        <section className="max-w-4xl w-full mx-auto mt-24 px-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold text-sky-300">What counts?</h2>
+          <p className="mt-3 text-slate-400">
+            (You can always ask in{" "}
+            <a href={SLACK_URL} target="_blank" rel="noopener noreferrer" className="text-sky-400 hover:underline">
+              #takeoff-help
+            </a>{" "}
+            if you aren&apos;t sure if your project counts.)
+          </p>
+          <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+            {buildIdeas.map(([emoji, label]) => (
+              <div
+                key={label}
+                className="bg-slate-800/50 border border-slate-700 rounded-lg p-4 hover:border-sky-500 transition-colors"
+              >
+                <div className="text-2xl">{emoji}</div>
+                <div className="mt-2 text-slate-200">{label}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* HOW IT WORKS */}
+        <section className="max-w-4xl w-full mx-auto mt-24 px-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold text-sky-300">How it works</h2>
+          <div className="mt-8 grid md:grid-cols-3 gap-6 text-left">
+            <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-6">
+              <h3 className="mt-2 text-xl font-semibold">Design</h3>
+              <p className="mt-2 text-slate-400 text-sm">
+                Design your project and journal your progress, while tracking your code time using{" "}
+                <a
+                  href="https://hackatime.hackclub.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sky-400 underline"
+                >
+                  Hackatime
+                </a>{" "}
+                as evidence.
+              </p>
+            </div>
+            <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-6">
+              <h3 className="mt-2 text-xl font-semibold">Ship</h3>
+              <p className="mt-2 text-slate-400 text-sm">
+                Ship your project to Takeoff, and get funding to build your project IRL!
+              </p>
+            </div>
+            <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-6">
+              <h3 className="mt-2 text-xl font-semibold">Get prizes</h3>
+              <p className="mt-2 text-slate-400 text-sm">
+                You can get aviation-themed prizes in the shop for your future projects!
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* SHOWCASE */}
+        <section id="showcase" className={styles.showcaseSection}>
+          <h2 className={styles.showcaseHeading}>Previous Submissions</h2>
+          <div className={styles.cardStream}>
+            {projects.map((p) => (
+              <div
+                key={p.title}
+                className={styles.blueprintCard}
+                style={{ backgroundImage: `url('${p.image}')` }}
+              >
+                <div className={styles.cardOverlay} />
+                <div className={styles.cardContent}>
+                  <h3 className={styles.cardTitle}>{p.title}</h3>
+                  <div className={styles.cardCreator}>By {p.creator}</div>
+                  <p className={styles.cardDescription}>{p.description}</p>
                 </div>
               </div>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* WHAT COUNTS */}
-      <section className="max-w-4xl mx-auto mt-24 px-6 text-center">
-        <h2 className="text-2xl md:text-3xl font-bold text-sky-300">What counts?</h2>
-        <p className="mt-3 text-slate-400">
-          (You can always ask in #takeoff-help if you aren&apos;t sure if your project counts.):
-        </p>
-        <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-          {buildIdeas.map(([emoji, label]) => (
-            <div
-              key={label}
-              className="bg-slate-800/50 border border-slate-700 rounded-lg p-4 hover:border-sky-500 transition-colors"
-            >
-              <div className="text-2xl">{emoji}</div>
-              <div className="mt-2 text-slate-200">{label}</div>
-            </div>
+        {/* FAQ */}
+        <section id="faq" className={styles.FAQ}>
+          <h2 className="text-3xl font-bold mb-6 text-center mt-8">FAQ</h2>
+          {faqs.map((f) => (
+            <details key={f.q} name="faq" className={styles.FAQstyle}>
+              <summary className={styles.FAQlist}>{f.q}</summary>
+              <p className={styles.FAQcontent}>{f.a}</p>
+            </details>
           ))}
-        </div>
-      </section>
+        </section>
 
-      {/* HOW IT WORKS */}
-      <section className="max-w-4xl mx-auto mt-24 px-6 text-center">
-        <h2 className="text-2xl md:text-3xl font-bold text-sky-300">How it works</h2>
-        <div className="mt-8 grid md:grid-cols-3 gap-6 text-left">
-          <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-6">
-            <h3 className="mt-2 text-xl font-semibold">Design</h3>
-            <p className="mt-2 text-slate-400 text-sm">
-              Design your project and journal your progress, while tracking your time using{" "}
-              <a
-                href="https://hackatime.hackclub.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sky-400 underline"
-              >
-                Hackatime
-              </a>{" "}
-              as evidence.
-            </p>
-          </div>
-          <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-6">
-            <h3 className="mt-2 text-xl font-semibold">Ship</h3>
-            <p className="mt-2 text-slate-400 text-sm">
-              Ship your project to takeoff, and get funding to build your project IRL!
-            </p>
-          </div>
-          <div className="bg-slate-800/50 border border-slate-700 rounded-lg p-6">
-            <h3 className="mt-2 text-xl font-semibold">Get prizes</h3>
-            <p className="mt-2 text-slate-400 text-sm">
-              You can get aviation-themed prices in the shop to buy whatever you want for your future projects:-)
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* SHOWCASE */}
-      <section id="showcase" className={styles.showcaseSection}>
-        <h2 className={styles.showcaseHeading}>[Previous submissions]</h2>
-        <div className={styles.cardStream}>
-          {projects.map((p) => (
-            <div
-              key={p.title}
-              className={styles.blueprintCard}
-              style={{ backgroundImage: `url('${p.image}')` }}
-            >
-              <div className={styles.cardOverlay} />
-              <div className={styles.cardContent}>
-                <h3 className={styles.cardTitle}>{p.title}</h3>
-                <div className={styles.cardCreator}>By {p.creator}</div>
-                <p className={styles.cardDescription}>{p.description}</p>
+        {/* RESOURCES FOOTER */}
+        <section className="w-full max-w-6xl mx-auto mt-24 px-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-8 text-left border-t border-slate-800 pt-12">
+            {footerLinks.map((col) => (
+              <div key={col.title}>
+                <h3 className="text-sky-300 font-bold text-sm uppercase tracking-widest mb-4">
+                  {col.title}
+                </h3>
+                <ul className="space-y-2 text-sm">
+                  {col.links.map((link) => (
+                    <li key={link.label}>
+                      <a
+                        href={link.href}
+                        target={link.href.startsWith("#") ? undefined : "_blank"}
+                        rel={link.href.startsWith("#") ? undefined : "noopener noreferrer"}
+                        className="text-slate-400 hover:text-sky-400 transition-colors"
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
               </div>
-            </div>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
 
-      {/* FAQ */}
-      <section id="faq" className={styles.FAQ}>
-        <h2 className="text-3xl font-bold mb-6 text-center mt-8">FAQ</h2>
-        {faqs.map((f) => (
-          <details key={f.q} name="faq" className={styles.FAQstyle}>
-            <summary className={styles.FAQlist}>{f.q}</summary>
-            <p className={styles.FAQcontent}>{f.a}</p>
-          </details>
-        ))}
-      </section>
-
-      {/* RESOURCES FOOTER */}
-      <section className="w-full max-w-6xl mx-auto mt-24 px-6">
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-8 text-left border-t border-slate-800 pt-12">
-          {footerLinks.map((col) => (
-            <div key={col.title}>
-              <h3 className="text-sky-300 font-bold text-sm uppercase tracking-widest mb-4">
-                {col.title}
-              </h3>
-              <ul className="space-y-2 text-sm">
-                {col.links.map((link) => (
-                  <li key={link.label}>
-                    <a
-                      href={link.href}
-                      target={link.href.startsWith("#") ? undefined : "_blank"}
-                      rel={link.href.startsWith("#") ? undefined : "noopener noreferrer"}
-                      className="text-slate-400 hover:text-sky-400 transition-colors"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* FOOTER */}
-      <footer className="w-full max-w-4xl mx-auto mt-24 mb-12 px-6 text-center text-slate-500 text-sm">
-        <p>
-          Takeoff is a{" "}
-          <a
-            href="https://hackclub.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sky-400 hover:underline"
-          >
-            Hack Club
-          </a>{" "}
-          YSWS. Hack Club is a 501(c)(3) nonprofit run by teenagers, for teenagers.
-        </p>
-        <p className="mt-2">
-          Questions? Ping <span className="text-slate-300">#takeoff-help</span> on{" "}
-          <a
-            href={SLACK_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sky-400 hover:underline"
-          >
-            the Slack
-          </a>
-          .
-        </p>
-        <p className="mt-4 text-xs text-slate-600">
-          🏳️ Built with love, (Abohisham and Java Junkie orgs...)
-        </p>
-      </footer>
+        {/* FOOTER */}
+        <footer className="w-full max-w-4xl mx-auto mt-24 mb-12 px-6 text-center text-slate-500 text-sm">
+          <p>
+            Takeoff is a{" "}
+            <a
+              href="https://hackclub.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sky-400 hover:underline"
+            >
+              Hack Club
+            </a>{" "}
+            YSWS. Hack Club is a 501(c)(3) nonprofit run by teenagers, for teenagers.
+          </p>
+          <p className="mt-2">
+            Questions? Ping <span className="text-slate-300">#takeoff-help</span> on{" "}
+            <a
+              href={SLACK_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sky-400 hover:underline"
+            >
+              the Slack
+            </a>
+            .
+          </p>
+          <p className="mt-4 text-xs text-slate-600">
+            🏳️ Built with love by the Takeoff orgs
+          </p>
+        </footer>
       </div>
-            </div>
     </main>
   );
 }
-
