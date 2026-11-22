@@ -180,7 +180,9 @@ export default function Home() {
       clearInterval(id);
     };
   }, []);
-
+<Link href="/docs" className={styles.navbarButtons}>
+  Docs
+</Link>
   return (
     <main className={styles.mainContainer}>
       <SceneBackground />
@@ -207,6 +209,7 @@ export default function Home() {
             <div className="hidden sm:flex gap-6 items-center">
               <a href="#about" className={styles.navbarButtons}>About</a>
               <a href="#showcase" className={styles.navbarButtons}>Some Projects</a>
+              <Link href="/docs" className={styles.navbarButtons}>Docs</Link>
               <a href="#faq" className={styles.navbarButtons}>FAQ</a>
               <a
                 href={SLACK_URL}
