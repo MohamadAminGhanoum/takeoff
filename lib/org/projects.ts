@@ -2,10 +2,6 @@ import { NextRequest } from "next/server";
 import { POST as sidekick } from "@/lib/sidekick/route";
 import type { Project } from "@/lib/sidekick/types";
 
-/**
- * Loads projects through the same internal route the reviewer pages use.
- * `ok` is false when the project backend isn't connected (as in a fresh local copy).
- */
 export async function fetchProjects(): Promise<{ ok: boolean; projects: Project[] }> {
   try {
     const req = new NextRequest("http://localhost:3000/api/sidekick", {

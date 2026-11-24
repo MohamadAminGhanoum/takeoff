@@ -1,7 +1,6 @@
 // Pure helpers for the org dashboard. No framework or network imports.
 import type { Project, ShipStatus } from "../sidekick/types";
 
-/* ---------------- projects ---------------- */
 
 export type GroupedStatus = "pending" | "approved" | "rejected";
 
@@ -70,15 +69,12 @@ export function paginate<T>(items: T[], page: number, size = PAGE_SIZE) {
   return { items: items.slice((current - 1) * size, current * size), page: current, pages, total: items.length };
 }
 
-/** Oldest unreviewed submissions first. */
 export function waitingLongest(projects: Project[], n = 5): Project[] {
   return projects
     .filter((p) => groupStatus(projectStatus(p)) === "pending")
     .sort((a, b) => (Date.parse(latestSubmitted(a)) || 0) - (Date.parse(latestSubmitted(b)) || 0))
     .slice(0, n);
 }
-
-/* ---------------- time buckets ---------------- */
 
 export type Bucket = { label: string; value: number };
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];

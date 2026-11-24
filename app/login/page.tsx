@@ -6,14 +6,14 @@ export default function LoginPage() {
       <h1 className="bg-gradient-to-r from-sky-300 to-blue-400 bg-clip-text text-5xl font-bold text-transparent">
         Takeoff
       </h1>
-      <p className="text-slate-400">Sign in with your Hack Club account.</p>
+      <p className="text-slate-400">Sign in with Hack Club Auth?.</p>
       <form
         action={async () => {
           "use server";
           await signIn("hackclub", { redirectTo: "/dashboard" });
         }}
       >
-        <button className="rounded-md bg-sky-500 px-8 py-3 font-semibold text-white transition hover:scale-105 hover:bg-sky-400">
+        <button className="rounded-md bg-red-500 px-8 py-3 font-semibold text-white transition hover:scale-105 hover:bg-sky-400">
           Sign in with Hack Club
         </button>
       </form>
