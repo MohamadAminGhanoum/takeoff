@@ -24,7 +24,7 @@ async function fetchReviewerProjects(): Promise<Project[]> {
     });
 
     const responseStream = await sidekickBackendEngine(mockReq);
-    if (!responseStream.ok) throw new Error(`Sidekick Engine status: ${responseStream.status}`);
+    if (!responseStream.ok) throw new Error(`sidekick  status: ${responseStream.status}`);
     
     const data = await responseStream.json();
     return Array.isArray(data) ? data : [];
@@ -71,7 +71,7 @@ export default async function ReviewerDashboardPage({ searchParams }: PageProps)
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-2xl font-black text-foreground uppercase tracking-tight flex items-center gap-2">
-            <Filter size={24} className="text-primary" /> Evaluation Audit Log
+            <Filter size={24} className="text-primary" /> loggys!
           </h1>
           <p className="text-muted-foreground font-mono text-xs uppercase tracking-wider mt-0.5">
            Hi!
@@ -81,25 +81,25 @@ export default async function ReviewerDashboardPage({ searchParams }: PageProps)
           href="/dashboard/reviewer/check"
           className="rounded-md border border-slate-700 px-3 py-1.5 text-sm text-slate-200 hover:bg-slate-800"
         >
-          Check a repo
+          check a reporepo!
         </Link>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
         <Card className="p-6">
           <div className="flex items-center justify-between">
-            <p className="text-xs font-mono uppercase tracking-widest text-muted-foreground">Actionable Queue Node</p>
+            <p className="text-xs font-mono uppercase tracking-widest text-muted-foreground"> queued ships </p>
             <Clock className="h-4 w-4 text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.3)]" />
           </div>
-          <div className="text-3xl font-black text-foreground font-mono mt-2">{actionablePending} Open Submissions</div>
+          <div className="text-3xl font-black text-foreground font-mono mt-2">{actionablePending} Current Ships!</div>
         </Card>
 
         <Card className="p-6">
           <div className="flex items-center justify-between">
-            <p className="text-xs font-mono uppercase tracking-widest text-muted-foreground">My Audits Finalized</p>
+            <p className="text-xs font-mono uppercase tracking-widest text-muted-foreground">My audits?</p>
             <CheckCircle2 className="h-4 w-4 text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.3)]" />
           </div>
-          <div className="text-3xl font-black text-foreground font-mono mt-2">{completedApprovals} Processed</div>
+          <div className="text-3xl font-black text-foreground font-mono mt-2">{completedApprovals} Done!</div>
         </Card>
       </div>
 
@@ -110,7 +110,7 @@ export default async function ReviewerDashboardPage({ searchParams }: PageProps)
             type="text"
             name="query"
             defaultValue={query}
-            placeholder="SCAN TARGET PROJECT REF OR TITLE..." 
+            placeholder="Find ref or title?" 
             className="w-full bg-background/40 border border-border/60 rounded-lg pl-9 pr-4 py-2 text-xs font-mono tracking-wide text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary/50 transition duration-150 uppercase"
           />
           <input type="hidden" name="queue" value={queue} />
@@ -119,10 +119,10 @@ export default async function ReviewerDashboardPage({ searchParams }: PageProps)
         <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0">
           <SlidersHorizontal size={14} className="text-muted-foreground/40 mr-1 hidden md:block" />
           {[
-            { label: "PENDING AUDITS", value: "pending" },
-            { label: "APPROVED SHIPS", value: "approved" },
-            { label: "REJECTED LIST", value: "rejected" },
-            { label: "ALL METRICS", value: "all" }
+            { label: "qeued ships", value: "pending" },
+            { label: "approved ships", value: "approved" },
+            { label: "rejected", value: "rejected" },
+            { label: "all", value: "all" }
           ].map((btn) => (
             <Link
               key={btn.value}
@@ -141,15 +141,15 @@ export default async function ReviewerDashboardPage({ searchParams }: PageProps)
 
       <div className="bg-card/20 backdrop-blur-md rounded-xl border border-border/60 shadow-2xl overflow-hidden">
         <div className="p-5 border-b border-border/40 bg-card/30 flex justify-between items-center">
-          <h2 className="text-md font-bold tracking-wide text-foreground">Assigned Audit Queue</h2>
+          <h2 className="text-md font-bold tracking-wide text-foreground">Assigned?</h2>
           <span className="text-[10px] font-mono text-muted-foreground/60 uppercase">
-            {auditedQueue.length} Active Node Vectors Listed
+            {auditedQueue.length} dev got too lazy here...
           </span>
         </div>
         <div className="divide-y divide-border/30">
           {auditedQueue.length === 0 ? (
             <div className="p-12 text-center text-xs font-mono tracking-wider text-muted-foreground/60 uppercase">
-              No pending logs assigned to this node instance // pipeline clear
+            NO logs!
             </div>
           ) : (
             auditedQueue.map((project) => {
@@ -159,14 +159,14 @@ export default async function ReviewerDashboardPage({ searchParams }: PageProps)
               return (
                 <div key={project.id} className="p-4 flex items-center justify-between hover:bg-primary/5 border-l-2 border-l-transparent hover:border-l-primary/40 transition-all duration-200">
                   <div className="space-y-1">
-                    {/* Fixed to point cleanly to your custom nested role workspace */}
+                    {}
                     <Link href={`/dashboard/reviewer/${project.id}`} className="font-bold text-foreground hover:text-primary transition-colors duration-150">
                       {project.title}
                     </Link>
                     <div className="flex gap-2 text-xs font-mono text-muted-foreground">
-                      <span>PROJECT_NODE: {project.id.slice(0, 8)}</span>
+                      <span>Project?: {project.id.slice(0, 8)}</span>
                       <span>•</span>
-                      <span className="text-primary/80">{totalHours} Hours Pending</span>
+                      <span className="text-primary/80">{totalHours} Pending hours?</span>
                     </div>
                   </div>
                   
